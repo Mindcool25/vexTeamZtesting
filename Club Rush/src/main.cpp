@@ -85,27 +85,30 @@ void opcontrol() {
 	pros::Controller master(pros::E_CONTROLLER_MASTER);
 	pros::Motor lf_mtr(LEFT_FRONT_MOTOR_PORT, pros::E_MOTOR_GEARSET_06, false);
 	pros::Motor lb_mtr(RIGHT_FRONT_MOTOR_PORT, pros::E_MOTOR_GEARSET_06, false);
-	pros::Motor rf_mtr(RIGHT_BACK_MOTOR_PORT, pros::E_MOTOR_GEARSET_06, false);
-	pros::Motor rb_mtr(LEFT_BACK_MOTOR_PORT, pros::E_MOTOR_GEARSET_06, false);
+	pros::Motor rf_mtr(RIGHT_BACK_MOTOR_PORT, pros::E_MOTOR_GEARSET_06, true);
+	pros::Motor rb_mtr(LEFT_BACK_MOTOR_PORT, pros::E_MOTOR_GEARSET_06, true);
 
 	while (true) {
 		pros::delay(10);
-		pros::lcd::set_text(1, "BYE!");
 		//arcade controls
+		/*
 		int  vert = master.get_analog(ANALOG_LEFT_Y);
 		int horiz = master.get_analog(ANALOG_RIGHT_X);
 
 		int left = vert + horiz;
 		int right = vert - horiz;
-		std::cout << "Right: " << right << std::endl;
-		master.print(0, 0, "Left: %d", left);
-		master.print(0, 0, "Right: %d", right);
 
 		lf_mtr.move(left);
 		lb_mtr.move(left);
 
 		rb_mtr.move(right);
 		rb_mtr.move(right);
+		*/
+
+		rb_mtr.move(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y));
+		rf_mtr.move(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y));
+		lb_mtr.move(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y));
+		lb_mtr.move(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y));
 
 
 		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_X)){
