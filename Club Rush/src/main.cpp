@@ -1,12 +1,16 @@
 #include "main.h"
+#include "pros/setup.hpp"
 #include <iostream>
 
-#define RIGHT_FRONT_MOTOR_PORT 2
-#define RIGHT_BACK_MOTOR_PORT 1
-#define LEFT_FRONT_MOTOR_PORT 9
-#define LEFT_BACK_MOTOR_PORT 10
+//create drive chassis through okapi
+std::shared_ptr<ChassisController> drive = ChassisControllerBuilder().withMotors(RIGHT_BACK_MOTOR_PORT, -LEFT_BACK_MOTOR_PORT, RIGHT_FRONT_MOTOR_PORT, -LEFT_FRONT_MOTOR_PORT).build();
 
 
+//Create controller
+Controller controller;
+
+//create button object to check for autonomous
+ControllerButton autoPressed(ControllerDigital::B);
 
 /**
  * A callback function for LLEMU's center button.
@@ -57,14 +61,10 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
-	pros::Motor lf_mtr(LEFT_FRONT_MOTOR_PORT, pros::E_MOTOR_GEARSET_18, false);
-	pros::Motor rf_mtr(RIGHT_FRONT_MOTOR_PORT, pros::E_MOTOR_GEARSET_18, false);
-
-	while (true){
-		lf_mtr = 127;
-		rf_mtr = 127;
+	for (int i = 0; i < 4; i++){
+		drive -> moveDistance(12_in);
+		drive -> turnAngle(90_deg);
 	}
-
 }
 
 /**
@@ -81,60 +81,22 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-	pros::lcd::set_text(1, "Hello PROS User!");
-	pros::Controller master(pros::E_CONTROLLER_MASTER);
 	pros::Motor lf_mtr(LEFT_FRONT_MOTOR_PORT, pros::E_MOTOR_GEARSET_06, false);
-	pros::Motor lb_mtr(RIGHT_FRONT_MOTOR_PORT, pros::E_MOTOR_GEARSET_06, false);
-	pros::Motor rf_mtr(RIGHT_BACK_MOTOR_PORT, pros::E_MOTOR_GEARSET_06, true);
-	pros::Motor rb_mtr(LEFT_BACK_MOTOR_PORT, pros::E_MOTOR_GEARSET_06, true);
+	pros::Motor lb_mtr(LEFT_BACK_MOTOR_PORT, pros::E_MOTOR_GEARSET_06, false);
+	pros::Motor rf_mtr(RIGHT_FRONT_MOTOR_PORT, pros::E_MOTOR_GEARSET_06, true);
+	pros::Motor rb_mtr(RIGHT_BACK_MOTOR_PORT, pros::E_MOTOR_GEARSET_06, true);
+
+	pros::Controller master(pros::E_CONTROLLER_MASTER);
 
 	while (true) {
 		pros::delay(10);
-		//arcade controls
-		/*
-		int  vert = master.get_analog(ANALOG_LEFT_Y);
-		int horiz = master.get_analog(ANALOG_RIGHT_X);
 
-		int left = vert + horiz;
-		int right = vert - horiz;
+		drive->getModel()->tank(controller.getAnalog(ControllerAnalog::leftY), controller.getAnalog(ControllerAnalog::rightY));
 
-		lf_mtr.move(left);
-		lb_mtr.move(left);
-
-		rb_mtr.move(right);
-		rb_mtr.move(right);
-		*/
-
-		rb_mtr.move(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y));
-		rf_mtr.move(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y));
-		lb_mtr.move(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y));
-		lb_mtr.move(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y));
-
-
-		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_X)){
-			rb_mtr = 127;
-			rf_mtr = 127;
-			lf_mtr = 127;
-			rf_mtr = 127;
+		//starts square loop in autonomous if B is pressed
+		if (autoPressed.isPressed()){
+			autonomous();
 		}
-
-		else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_B)){
-			rb_mtr = -127;
-			rf_mtr = -127;
-			lf_mtr = -127;
-			rf_mtr = -127;
-		}
-		else{
-			rb_mtr = 0;
-			rf_mtr = 0;
-			lf_mtr = 0;
-			rf_mtr = 0;
-		}
-
-
-
-
-
 
 
 	}
