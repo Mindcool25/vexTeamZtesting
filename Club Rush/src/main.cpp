@@ -1,7 +1,7 @@
 #include "main.h"
 #include <iostream>
 
-pros::Motor claw (20, pros::E_MOTOR_GEARSET_36, false);
+
 
 /**
  * A callback function for LLEMU's center button.
@@ -52,21 +52,6 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
-	rb_mtr.tare_position();
-	rf_mtr.tare_position();
-	lb_mtr.tare_position();
-	lf_mtr.tare_position();
-
-
-	rb_mtr.move_absolute(100, 100);
-	rf_mtr.move_absolute(100, 100);
-	lb_mtr.move_absolute(100, 100);
-	lf_mtr.move_absolute(100, 100);
-
-	while(rb_mtr.get_position() < 100 && rb_mtr.get_position() > 70){
-		pros::delay(20);
-	}
-
 }
 
 /**
@@ -83,37 +68,8 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-	std::string tempRB = "Right Back Motor Temp: "+ std::to_string(rb_mtr.get_temperature());
-	std::string tempRF = "Right Front Motor Temp: "+ std::to_string(rb_mtr.get_temperature());
-	std::string tempLB = "Left Back Motor Temp: "+ std::to_string(rb_mtr.get_temperature());
-	std::string tempLF = "Left Front Motor Temp: "+ std::to_string(rb_mtr.get_temperature());
-	std::string tempClaw = "Claw Motor Temp: "+ std::to_string(rb_mtr.get_temperature());
-
-	pros::lcd::print(1, tempRB, pros::lcd::read_buttons());
-	pros::lcd::print(1, tempRB, );
-	pros::lcd::set_text(1, tempRF);
-	pros::lcd::set_text(1, tempLB);
-	pros::lcd::set_text(1, tempLF);
-	pros::lcd::set_text(1, tempClaw);
-
 	while (true) {
+		drive();
 
-		claw.move(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X));
-
-		pros::delay(10);
-		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_X) && run == false){
-			if(run){
-				arcadeDrive();
-			}
-		}
-		else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_X) && run == true){
-			arcadeDrive();
-		}
-
-
-		//starts square loop in autonomous if B is pressed
-		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_B)){
-			autonomous();
-		}
 	}
 }

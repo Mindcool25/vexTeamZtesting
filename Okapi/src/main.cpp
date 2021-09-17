@@ -20,6 +20,11 @@ std::shared_ptr<okapi::ChassisModel> drive = mainChassis->getModel();
 //setup clawMotor
 okapi::Motor clawMotor(20);
 
+//setup diodes on drive buttons
+#define TANK_DIODE 'g'
+#define ARCADE_DIODE 'e'
+pros::ADIPort tankDiode(TANK_DIODE, pros::E_ADI_DIGITAL_OUT);
+pros::ADIPort arcadeDiode(ARCADE_DIODE, pros::E_ADI_DIGITAL_OUT);
 
 /**
  * A callback function for LLEMU's center button.
@@ -96,19 +101,19 @@ void autonomous() {}
 void opcontrol() {
 	//drive mode - true = tank, false = arcade
 	bool hi;
+
 	while (true){
 		pros::delay(20);
-				
+		
 		//test arcade vs tank buttons
 		if(tankButton.isPressed()){
 			hi = true;
 		}
 		else if(arcadeButton.isPressed()){
 			hi = false;
-		}
+		}	
 		
-		//claw motor movement - Bot broken
-		clawMotor.moveVoltage(control.getAnalog(okapi::ControllerAnalog::leftX) * 12000);
+		tankDiode.set_value(LOW);
 		
 		//hi is based on tank and arcade buttons
 		//arcade control vs tank control
@@ -120,14 +125,14 @@ void opcontrol() {
 		}
 		
 		//front bumper button 
-		//on impact - move back, turn 360
+		//on impact - move back, turn 180
 		if (bumpButton.isPressed()){
 			drive -> forward(-1);
 			pros::delay(450);
 			drive -> forward(0);
 			pros::delay(500);
 			drive -> rotate(6);
-			pros::delay(900);
+			pros::delay(675);
 		}
 	}
 }
