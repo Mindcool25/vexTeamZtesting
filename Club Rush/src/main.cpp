@@ -52,6 +52,13 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
+	square();
+
+
+
+
+
+
 }
 
 /**
@@ -68,8 +75,32 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
+	std::string tempRB = "Right Back Motor Temp: " + std::to_string(rb_mtr.getTemperature());
+	std::string tempRF = "Right Front Motor Temp: " + std::to_string(rf_mtr.getTemperature());
+	std::string tempLB = "Left Back Motor Temp: " + std::to_string(lb_mtr.getTemperature());
+	std::string tempLF = "Left Front Motor Temp: " + std::to_string(lf_mtr.getTemperature());
+
+	pros::lcd::set_text(1, tempRB);
+	pros::lcd::set_text(2, tempRF);
+	pros::lcd::set_text(3, tempLB);
+	pros::lcd::set_text(4, tempLF);
+
 	while (true) {
+		tempRB = "Right Back Motor Temp: " + std::to_string(rb_mtr.getTemperature());
+		tempRF = "Right Front Motor Temp: " + std::to_string(rf_mtr.getTemperature());
+		tempLB = "Left Back Motor Temp: " + std::to_string(lb_mtr.getTemperature());
+		tempLF = "Left Front Motor Temp: " + std::to_string(lf_mtr.getTemperature());
+
+		pros::lcd::set_text(1, tempRB);
+		pros::lcd::set_text(2, tempRF);
+		pros::lcd::set_text(3, tempLB);
+		pros::lcd::set_text(4, tempLF);
+
+
 		drive();
 
+		if(master.getDigital(okapi::ControllerDigital::Y)){
+			autonomous();
+		}
 	}
 }

@@ -17,12 +17,9 @@ okapi::Controller control(okapi::ControllerId::master);
 //setup driver
 std::shared_ptr<okapi::ChassisModel> drive = mainChassis->getModel();
 
-//setup clawMotor
-okapi::Motor clawMotor(20);
-
 //setup diodes on drive buttons
-#define TANK_DIODE 'g'
-#define ARCADE_DIODE 'e'
+#define TANK_DIODE 'G'
+#define ARCADE_DIODE 'E'
 pros::ADIPort tankDiode(TANK_DIODE, pros::E_ADI_DIGITAL_OUT);
 pros::ADIPort arcadeDiode(ARCADE_DIODE, pros::E_ADI_DIGITAL_OUT);
 
@@ -117,8 +114,14 @@ void opcontrol() {
 
 		//hi is based on tank and arcade buttons
 		//arcade control vs tank control
+<<<<<<< Updated upstream
 		if(driveMode){
 			drive->tank(control.getAnalog(okapi::ControllerAnalog::leftY) * 12000, control.getAnalog(okapi::ControllerAnalog::rightY) * 12000, 0);
+=======
+		//true = tank; false = arcade
+		if(hi){
+			drive->tank(control.getAnalog(okapi::ControllerAnalog::leftY) * 12000, control.getAnalog(okapi::ControllerAnalog::rightY) * 12000, 0);	
+>>>>>>> Stashed changes
 		}
 		else{
 			drive -> arcade(control.getAnalog(okapi::ControllerAnalog::rightY) * 12000, control.getAnalog(okapi::ControllerAnalog::rightX) * 12000, 0);

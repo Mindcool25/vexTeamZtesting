@@ -12,10 +12,10 @@
 const std::shared_ptr<okapi::Logger>& logger = okapi::Logger::getDefaultLogger();
 
 //create all motors
-okapi::Motor rf_mtr(RIGHT_FRONT_MOTOR_PORT, true, okapi::AbstractMotor::gearset::blue, okapi::AbstractMotor::encoderUnits::degrees, logger);
-okapi::Motor rb_mtr(RIGHT_BACK_MOTOR_PORT, true, okapi::AbstractMotor::gearset::blue, okapi::AbstractMotor::encoderUnits::degrees, logger);
-okapi::Motor lf_mtr(LEFT_FRONT_MOTOR_PORT, false, okapi::AbstractMotor::gearset::blue, okapi::AbstractMotor::encoderUnits::degrees, logger);
-okapi::Motor lb_mtr(LEFT_BACK_MOTOR_PORT, false, okapi::AbstractMotor::gearset::blue, okapi::AbstractMotor::encoderUnits::degrees, logger);
+okapi::Motor rf_mtr(RIGHT_FRONT_MOTOR_PORT, true, okapi::AbstractMotor::gearset::green, okapi::AbstractMotor::encoderUnits::degrees, logger);
+okapi::Motor rb_mtr(RIGHT_BACK_MOTOR_PORT, true, okapi::AbstractMotor::gearset::green, okapi::AbstractMotor::encoderUnits::degrees, logger);
+okapi::Motor lf_mtr(LEFT_FRONT_MOTOR_PORT, false, okapi::AbstractMotor::gearset::green, okapi::AbstractMotor::encoderUnits::degrees, logger);
+okapi::Motor lb_mtr(LEFT_BACK_MOTOR_PORT, false, okapi::AbstractMotor::gearset::green, okapi::AbstractMotor::encoderUnits::degrees, logger);
 
 //Create Motor Groups
 //Right side motor groups
@@ -57,14 +57,23 @@ void drive(){
   if(tankDrive.isPressed()){
     driveMode = true;
   }
-  else if(arcadeDrive.isPressed()){
+  else if (arcadeDrive.isPressed()){
     driveMode = false;
   }
-  
+
   if(driveMode){
     tank();
   }
-  else {
+  else if(!driveMode) {
     arcade();
+  }
+}
+
+
+void square(){
+  rightSide.moveRelative(360, 12000);
+  leftSide.moveRelative(360, 12000);
+  if(rightSide.isStopped() && leftSide.isStopped()){
+    rightSide.moveRelative(360, 12000);
   }
 }
