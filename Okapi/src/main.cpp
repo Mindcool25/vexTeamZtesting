@@ -100,31 +100,31 @@ void autonomous() {}
  */
 void opcontrol() {
 	//drive mode - true = tank, false = arcade
-	bool hi;
+	bool driveMode;
 
 	while (true){
 		pros::delay(20);
-		
+
 		//test arcade vs tank buttons
 		if(tankButton.isPressed()){
-			hi = true;
+			driveMode = true;
 		}
 		else if(arcadeButton.isPressed()){
-			hi = false;
-		}	
-		
+			driveMode = false;
+		}
+
 		tankDiode.set_value(LOW);
-		
+
 		//hi is based on tank and arcade buttons
 		//arcade control vs tank control
-		if(hi){
-			drive->tank(control.getAnalog(okapi::ControllerAnalog::leftY) * 12000, control.getAnalog(okapi::ControllerAnalog::rightY) * 12000, 0);	
+		if(driveMode){
+			drive->tank(control.getAnalog(okapi::ControllerAnalog::leftY) * 12000, control.getAnalog(okapi::ControllerAnalog::rightY) * 12000, 0);
 		}
 		else{
 			drive -> arcade(control.getAnalog(okapi::ControllerAnalog::rightY) * 12000, control.getAnalog(okapi::ControllerAnalog::rightX) * 12000, 0);
 		}
-		
-		//front bumper button 
+
+		//front bumper button
 		//on impact - move back, turn 180
 		if (bumpButton.isPressed()){
 			drive -> forward(-1);
