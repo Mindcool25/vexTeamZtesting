@@ -110,18 +110,13 @@ void opcontrol() {
 			driveMode = false;
 		}
 
-		tankDiode.set_value(LOW);
-
 		//hi is based on tank and arcade buttons
 		//arcade control vs tank control
-<<<<<<< Updated upstream
+
+
+		//true = tank; false = arcade
 		if(driveMode){
 			drive->tank(control.getAnalog(okapi::ControllerAnalog::leftY) * 12000, control.getAnalog(okapi::ControllerAnalog::rightY) * 12000, 0);
-=======
-		//true = tank; false = arcade
-		if(hi){
-			drive->tank(control.getAnalog(okapi::ControllerAnalog::leftY) * 12000, control.getAnalog(okapi::ControllerAnalog::rightY) * 12000, 0);	
->>>>>>> Stashed changes
 		}
 		else{
 			drive -> arcade(control.getAnalog(okapi::ControllerAnalog::rightY) * 12000, control.getAnalog(okapi::ControllerAnalog::rightX) * 12000, 0);
@@ -135,7 +130,7 @@ void opcontrol() {
 			drive -> forward(0);
 			pros::delay(500);
 			drive -> rotate(6);
-			pros::delay(675);
+			pros::delay(200);
 		}
 	}
 }

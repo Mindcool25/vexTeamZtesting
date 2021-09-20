@@ -1,7 +1,7 @@
 #include "main.h"
 #include <iostream>
 
-
+pros::Vision vision_sensor (6);
 
 /**
  * A callback function for LLEMU's center button.
@@ -19,6 +19,7 @@
 void initialize() {
 	pros::lcd::initialize();
 	pros::lcd::set_text(1, "Hello World!");
+	vision_sensor.clear_led();
 
 }
 
@@ -52,11 +53,6 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
-	square();
-
-
-
-
 
 
 }
@@ -75,32 +71,28 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-	std::string tempRB = "Right Back Motor Temp: " + std::to_string(rb_mtr.getTemperature());
-	std::string tempRF = "Right Front Motor Temp: " + std::to_string(rf_mtr.getTemperature());
-	std::string tempLB = "Left Back Motor Temp: " + std::to_string(lb_mtr.getTemperature());
-	std::string tempLF = "Left Front Motor Temp: " + std::to_string(lf_mtr.getTemperature());
+	pros::vision_object_s_t sig;
 
-	pros::lcd::set_text(1, tempRB);
-	pros::lcd::set_text(2, tempRF);
-	pros::lcd::set_text(3, tempLB);
-	pros::lcd::set_text(4, tempLF);
+
 
 	while (true) {
-		tempRB = "Right Back Motor Temp: " + std::to_string(rb_mtr.getTemperature());
-		tempRF = "Right Front Motor Temp: " + std::to_string(rf_mtr.getTemperature());
-		tempLB = "Left Back Motor Temp: " + std::to_string(lb_mtr.getTemperature());
-		tempLF = "Left Front Motor Temp: " + std::to_string(lf_mtr.getTemperature());
-
-		pros::lcd::set_text(1, tempRB);
-		pros::lcd::set_text(2, tempRF);
-		pros::lcd::set_text(3, tempLB);
-		pros::lcd::set_text(4, tempLF);
-
-
 		drive();
+		sig = vision_sensor.get_by_sig(0, 1);
+		if(sig.x_middle_coord != 0 && sig.x_middle_coord != 137){
+			if(sig.x_middle_coord > 137){
+				rightSide.moveVoltage(-10000);
+				leftSide.moveVoltage(0);
+			}
+			if(sig.x_middle_coord < 137){
+				leftSide.moveVoltage(-10000);
+				rightSide.moveVoltage(0);
+			}
+			std::cout << sig.x_middle_coord << std::endl;
+			pros::delay(10);
+		}
 
 		if(master.getDigital(okapi::ControllerDigital::Y)){
-			autonomous();
+			square();
 		}
 	}
 }
