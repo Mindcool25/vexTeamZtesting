@@ -1,6 +1,8 @@
 #include "main.h"
 #include <iostream>
 
+pros::Vision vision_sensor (6);
+
 /**
  * A callback function for LLEMU's center button.
  *
@@ -17,6 +19,8 @@
 void initialize() {
 	pros::lcd::initialize();
 	pros::lcd::set_text(1, "Hello World!");
+	vision_sensor.clear_led();
+
 }
 
 /**
@@ -67,45 +71,28 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-	std::string rb_temp = "Right Back Temp: " + std::to_string(rb_mtr.getTemperature());
-	std::string rf_temp = "Right Front Temp: " + std::to_string(rf_mtr.getTemperature());
-	std::string lb_temp = "Left Back Temp: " + std::to_string(lb_mtr.getTemperature());
-	std::string lf_temp = "Left Front Temp: " + std::to_string(lf_mtr.getTemperature());
+	pros::vision_object_s_t sig;
 
-
-	tankDiode.set_value(0);
-  arcadeDiode.set_value(1);
 
 
 	while (true) {
-
-		//show temps
-		pros::lcd::set_text(2, rb_temp);
-		pros::lcd::set_text(3, rf_temp);
-		pros::lcd::set_text(4, lb_temp);
-		pros::lcd::set_text(5, lf_temp);
-
-		//set speed value
-		speedValue = speedControl.get_value() * 2.93;
-
-		//Main Drive function - more in Drive.cpp
 		drive();
+		sig = vision_sensor.get_by_sig(0, 1);
+		if(sig.x_middle_coord != 0 && sig.x_middle_coord != 137){
+			if(sig.x_middle_coord > 137){
+				rightSide.moveVoltage(-10000);
+				leftSide.moveVoltage(0);
+			}
+			if(sig.x_middle_coord < 137){
+				leftSide.moveVoltage(-10000);
+				rightSide.moveVoltage(0);
+			}
+			std::cout << sig.x_middle_coord << std::endl;
+			pros::delay(10);
+		}
 
-		//if Y on controller is pressed - do square, more in Drive.cpp
 		if(master.getDigital(okapi::ControllerDigital::Y)){
 			square();
 		}
-
-		//if front buttons pressed - move back 100, pause 200 mili, turn 180 degrees, pause 1.5 seconds
-		if(bumperButtons.isPressed()){
-			forward(-100);
-			pros::delay(200);
-			turn(180);
-			pros::delay(1500);
-		}
-
-
-		//DO NOT DELETE - pauses program to not overload the brain
-		pros::delay(10);
 	}
 }
