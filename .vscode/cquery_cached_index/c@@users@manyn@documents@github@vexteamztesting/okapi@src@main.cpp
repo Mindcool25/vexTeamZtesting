@@ -1,5 +1,28 @@
 #include "main.h"
 
+using namespace okapi;
+
+//setup buttons on robots
+okapi::ADIButton tankButton('h', false);
+okapi::ADIButton arcadeButton('f', false);
+okapi::ADIButton bumpButton('a', false);
+
+//setup chassis (wow, this is a lot)
+//shared_ptr (type ChassisController), name = function to build (ChassisControllerBuilder).add the motors (withMotors)({left set motors}, {right set motors}).add dimensions (withDimensions)({set gearset, set motor to wheel rotation}, {{wheel diameter, mid-tire to mid tire distance}, ticks per revolution}).build();
+std::shared_ptr<okapi::ChassisController> mainChassis = okapi::ChassisControllerBuilder().withMotors({10,9},{-2,-1}).withDimensions({okapi::AbstractMotor::gearset::blue, 1}, {{4_in,14.5_in}, 300}).build();
+
+//setup controller
+okapi::Controller control(okapi::ControllerId::master);
+
+//setup driver
+std::shared_ptr<okapi::ChassisModel> drive = mainChassis->getModel();
+
+//setup diodes on drive buttons
+#define TANK_DIODE 'G'
+#define ARCADE_DIODE 'E'
+pros::ADIPort tankDiode(TANK_DIODE, pros::E_ADI_DIGITAL_OUT);
+pros::ADIPort arcadeDiode(ARCADE_DIODE, pros::E_ADI_DIGITAL_OUT);
+
 /**
  * A callback function for LLEMU's center button.
  *
@@ -25,7 +48,6 @@ void on_center_button() {
 void initialize() {
 	pros::lcd::initialize();
 	pros::lcd::set_text(1, "Hello PROS User!");
-
 	pros::lcd::register_btn1_cb(on_center_button);
 }
 
@@ -74,19 +96,41 @@ void autonomous() {}
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-	pros::Controller master(pros::E_CONTROLLER_MASTER);
-	pros::Motor left_mtr(1);
-	pros::Motor right_mtr(2);
+	//drive mode - true = tank, false = arcade
+	bool driveMode;
 
-	while (true) {
-		pros::lcd::print(0, "%d %d %d", (pros::lcd::read_buttons() & LCD_BTN_LEFT) >> 2,
-		                 (pros::lcd::read_buttons() & LCD_BTN_CENTER) >> 1,
-		                 (pros::lcd::read_buttons() & LCD_BTN_RIGHT) >> 0);
-		int left = master.get_analog(ANALOG_LEFT_Y);
-		int right = master.get_analog(ANALOG_RIGHT_Y);
-
-		left_mtr = left;
-		right_mtr = right;
+	while (true){
 		pros::delay(20);
+
+		//test arcade vs tank buttons
+		if(tankButton.isPressed()){
+			driveMode = true;
+		}
+		else if(arcadeButton.isPressed()){
+			driveMode = false;
+		}
+
+		//hi is based on tank and arcade buttons
+		//arcade control vs tank control
+
+
+		//true = tank; false = arcade
+		if(driveMode){
+			drive->tank(control.getAnalog(okapi::ControllerAnalog::leftY) * 12000, control.getAnalog(okapi::ControllerAnalog::rightY) * 12000, 0);
+		}
+		else{
+			drive -> arcade(control.getAnalog(okapi::ControllerAnalog::rightY) * 12000, control.getAnalog(okapi::ControllerAnalog::rightX) * 12000, 0);
+		}
+
+		//front bumper button
+		//on impact - move back, turn 180
+		if (bumpButton.isPressed()){
+			drive -> forward(-1);
+			pros::delay(450);
+			drive -> forward(0);
+			pros::delay(500);
+			drive -> rotate(6);
+			pros::delay(200);
+		}
 	}
 }
