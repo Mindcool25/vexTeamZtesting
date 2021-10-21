@@ -1,15 +1,5 @@
-#include "main.h"
-
-//positive
-#define LEFT_MOTOR_FRONT 10
-#define RIGHT_MOTOR_BACK 1
-
-//negitive
-#define LEFT_MOTOR_BACK 9
-#define RIGHT_MOTOR_FRONT 2
-
-int leftInput;
-int rightInput;
+#include "../include/main.h"
+#include "../include/Drive/drive.cpp"
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -68,23 +58,13 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-	pros::Motor rb_mtr(RIGHT_MOTOR_BACK, pros::E_MOTOR_GEARSET_18, true, pros::E_MOTOR_ENCODER_DEGREES);
-	pros::Motor rf_mtr(RIGHT_MOTOR_FRONT, pros::E_MOTOR_GEARSET_18, false, pros::E_MOTOR_ENCODER_DEGREES);
-	pros::Motor lb_mtr(LEFT_MOTOR_BACK, pros::E_MOTOR_GEARSET_18, false, pros::E_MOTOR_ENCODER_DEGREES);
-	pros::Motor lf_mtr(LEFT_MOTOR_FRONT, pros::E_MOTOR_GEARSET_18, true, pros::E_MOTOR_ENCODER_DEGREES);
+	//create Controller
 	pros::Controller master(pros::E_CONTROLLER_MASTER);
-
 	while(true){
-		rightInput = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
-		leftInput = master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
-
-		std::cout << rightInput << std::endl;
-
-		rb_mtr = rightInput;
-		rf_mtr = rightInput;
-
-		lf_mtr = leftInput;
-		lb_mtr = leftInput;
+		tankDrive();
+		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_A)){
+			forward();
+		}
 		pros::delay(10);
 	}
 
