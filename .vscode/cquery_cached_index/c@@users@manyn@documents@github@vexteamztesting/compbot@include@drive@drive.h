@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../main.h"
+#include "../include/main.h"
 using namespace okapi;
 
 //define ports

@@ -1,5 +1,6 @@
 #include "../include/main.h"
-#include "../include/Drive/drive.cpp"
+#include "../Drive/drive.cpp"
+#include "../Lift/lift.cpp"
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -58,13 +59,9 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-	//create Controller
-	pros::Controller master(pros::E_CONTROLLER_MASTER);
 	while(true){
 		tankDrive();
-		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_A)){
-			forward();
-		}
+		moveLift();
 		pros::delay(10);
 	}
 
