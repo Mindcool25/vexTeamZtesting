@@ -2,6 +2,9 @@
 #include "../Drive/drive.cpp"
 #include "../Lift/lift.cpp"
 
+//controller
+okapi::Controller mController(okapi::ControllerId::master);
+
 /**
  * Runs initialization code. This occurs as soon as the program is started.
  *
@@ -62,6 +65,11 @@ void opcontrol() {
 	while(true){
 		tankDrive();
 		moveLift();
+		if(mController.getDigital(okapi::ControllerDigital::B)){
+			forward(3);
+		}
+
+
 		pros::delay(10);
 	}
 

@@ -9,7 +9,7 @@ okapi::ADIButton bumpButton('a', false);
 
 //setup chassis (wow, this is a lot)
 //shared_ptr (type ChassisController), name = function to build (ChassisControllerBuilder).add the motors (withMotors)({left set motors}, {right set motors}).add dimensions (withDimensions)({set gearset, set motor to wheel rotation}, {{wheel diameter, mid-tire to mid tire distance}, ticks per revolution}).build();
-std::shared_ptr<okapi::ChassisController> mainChassis = okapi::ChassisControllerBuilder().withMotors({10,9},{-2,-1}).withDimensions({okapi::AbstractMotor::gearset::blue, 1}, {{4_in,14.5_in}, 300}).build();
+std::shared_ptr<okapi::ChassisController> mainChassis = okapi::ChassisControllerBuilder().withMotors({10,-9},{2,-1}).withDimensions({okapi::AbstractMotor::gearset::blue, 1}, {{4_in,14.5_in}, 300}).build();
 
 //setup controller
 okapi::Controller control(okapi::ControllerId::master);
@@ -97,7 +97,7 @@ void autonomous() {}
  */
 void opcontrol() {
 	//drive mode - true = tank, false = arcade
-	bool driveMode;
+	bool driveMode = true;
 
 	while (true){
 		pros::delay(20);
@@ -115,7 +115,7 @@ void opcontrol() {
 
 
 		//true = tank; false = arcade
-		if(driveMode){
+		if(true){
 			drive->tank(control.getAnalog(okapi::ControllerAnalog::leftY) * 12000, control.getAnalog(okapi::ControllerAnalog::rightY) * 12000, 0);
 		}
 		else{
