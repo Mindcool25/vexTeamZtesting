@@ -66,7 +66,12 @@ void opcontrol() {
 		tankDrive();
 		moveLift();
 		if(mController.getDigital(okapi::ControllerDigital::B)){
-			forward(3);
+			for(int i = 0; i  < 4; i++){
+				forward(12);
+				pros::delay(30);
+				turn(90);
+				pros::delay(30);
+			}
 		}
 
 

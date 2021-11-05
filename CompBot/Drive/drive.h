@@ -33,3 +33,4 @@ float rightInput;
 //define functions
 void tankDrive();
 void forward(double distance);
+void turn(double degrees);
