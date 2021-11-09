@@ -9,3 +9,4 @@ okapi::MotorGroup lift({lift_right, lift_left});
 
 //functions
 void moveLift();
+void moveLiftAuto(double distance);

@@ -17,12 +17,13 @@ Motor rb_motor(RIGHT_MOTOR_BACK, true, AbstractMotor::gearset::green, AbstractMo
 Motor rf_motor(RIGHT_MOTOR_FRONT, false, AbstractMotor::gearset::green, AbstractMotor::encoderUnits::degrees);
 Motor lb_motor(LEFT_MOTOR_BACK, false, AbstractMotor::gearset::green, AbstractMotor::encoderUnits::degrees);
 Motor lf_motor(LEFT_MOTOR_FRONT, true, AbstractMotor::gearset::green, AbstractMotor::encoderUnits::degrees);
-
-//controller
-Controller masterController(ControllerId::master);
+/*possibly change to motor groups*/
+//Motor groups
+MotorGroup rightSide({rb_motor, rf_motor});
+MotorGroup leftSide({lb_motor, lf_motor});
 
 //Chassis controller  stuff
-//ignore error - it compiles fine
+//ignore error - it compiles fine - doesn't run fine
 //std::shared_ptr<okapi::ChassisController> chassisModel = okapi::ChassisControllerBuilder().withMotors({lb_motor, lf_motor}, {rb_motor, rf_motor}).withDimensions({okapi::AbstractMotor::gearset::blue, 1}, {{4_in, 14.5_in}, 900}).build();
 //std::shared_ptr<okapi::ChassisModel> driveTrain = chassisModel->getModel();
 
@@ -31,6 +32,7 @@ float leftInput;
 float rightInput;
 
 //define functions
+void setupDriveMotors(int mode);
 void tankDrive();
 void forward(double distance);
 void turn(double degrees);

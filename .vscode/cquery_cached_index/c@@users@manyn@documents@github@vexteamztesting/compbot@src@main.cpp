@@ -1,9 +1,5 @@
 #include "../include/main.h"
-#include "../Drive/drive.cpp"
-#include "../Lift/lift.cpp"
-
-//controller
-okapi::Controller mController(okapi::ControllerId::master);
+#include "../include/globals.h"
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -12,7 +8,7 @@ okapi::Controller mController(okapi::ControllerId::master);
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-
+	pros::lcd::initialize();
 }
 
 /**
@@ -45,7 +41,7 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
-
+	autonSelect();
 }
 
 /**
@@ -62,16 +58,24 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
+	setupDriveMotors(1);
 	while(true){
 		tankDrive();
 		moveLift();
-		if(mController.getDigital(okapi::ControllerDigital::B)){
+		if(masterController.getDigital(okapi::ControllerDigital::B)){
 			for(int i = 0; i  < 4; i++){
 				forward(12);
 				pros::delay(30);
 				turn(90);
 				pros::delay(30);
 			}
+		}
+		if(masterController.getDigital(okapi::ControllerDigital::Y)){
+			forward(48);
+			moveLiftAuto(360);
+		}
+		if(masterController.getDigital(okapi::ControllerDigital::X)){
+			autonomous();
 		}
 
 

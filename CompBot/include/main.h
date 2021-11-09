@@ -40,6 +40,10 @@
  * You should add more #includes here
  */
 #include "okapi/api.hpp"
+#include "globals.h"
+#include "../Drive/drive.cpp"
+#include "../Lift/lift.cpp"
+#include "../Autonomous/auto.cpp"
 //#include "globals.h"
 //#include "pros/api_legacy.h"
 

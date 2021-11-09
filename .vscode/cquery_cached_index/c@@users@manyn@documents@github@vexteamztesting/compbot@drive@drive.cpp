@@ -1,5 +1,21 @@
-#include "../include/main.h"
 #include "drive.h"
+
+void setupDriveMotors(int mode){
+  switch(mode){
+    case 0:
+      rightSide.setBrakeMode(AbstractMotor::brakeMode::coast);
+      leftSide.setBrakeMode(AbstractMotor::brakeMode::coast);
+      break;
+    case 1:
+      rightSide.setBrakeMode(AbstractMotor::brakeMode::brake);
+      leftSide.setBrakeMode(AbstractMotor::brakeMode::brake);
+      break;
+    case 2:
+      rightSide.setBrakeMode(AbstractMotor::brakeMode::hold);
+      leftSide.setBrakeMode(AbstractMotor::brakeMode::hold);
+      break;
+  }
+}
 
 void tankDrive(){
   leftInput = masterController.getAnalog(ControllerAnalog::leftY)*12000;
@@ -15,37 +31,43 @@ void tankDrive(){
 
 void forward(double distance){
   distance *= 60;
-  rb_motor.tarePosition();
-  rf_motor.tarePosition();
-  lb_motor.tarePosition();
-  lf_motor.tarePosition();
+  rightSide.tarePosition();
+  leftSide.tarePosition();
 
-  rb_motor.moveAbsolute(distance, 200);
-  rf_motor.moveAbsolute(distance, 200);
-  lb_motor.moveAbsolute(distance, 200);
-  lf_motor.moveAbsolute(distance, 200);
+  rightSide.moveAbsolute(distance, 200);
+  leftSide.moveAbsolute(distance, 200);
 
-  while (rb_motor.getPosition() < distance && rf_motor.getPosition() < distance && lb_motor.getPosition() < distance && lf_motor.getPosition() < distance){
-    pros::delay(20);
+  if (distance > 0){
+    while (rightSide.getPosition() < distance && leftSide.getPosition() < distance){
+      pros::delay(20);
+    }
+  }
+  else {
+    while (rightSide.getPosition() > distance && leftSide.getPosition() > distance){
+      pros::delay(20);
+    }
   }
 
   	pros::delay(50);
 }
 
 void turn(double degrees){
-  degrees *= 8.3;
-  rb_motor.tarePosition();
-  rf_motor.tarePosition();
-  lb_motor.tarePosition();
-  lf_motor.tarePosition();
+  degrees *= 8.205;
+  rightSide.tarePosition();
+  leftSide.tarePosition();
 
-  rb_motor.moveAbsolute(degrees, 200);
-  rf_motor.moveAbsolute(degrees, 200);
-  lb_motor.moveAbsolute(-degrees, -200);
-  lf_motor.moveAbsolute(-degrees, -200);
+  rightSide.moveAbsolute(degrees, 200);
+  leftSide.moveAbsolute(-degrees, -200);
 
-  while (rb_motor.getPosition() < degrees && rf_motor.getPosition() < degrees && lb_motor.getPosition() < degrees && lf_motor.getPosition() < degrees){
-    pros::delay(20);
+  if (degrees > 0){
+    while (rightSide.getPosition() < degrees && leftSide.getPosition() < degrees){
+      pros::delay(20);
+    }
+  }
+  else {
+    while (rightSide.getPosition() > degrees && leftSide.getPosition() > degrees){
+      pros::delay(20);
+    }
   }
 
   pros::delay(50);
