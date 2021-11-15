@@ -44,6 +44,7 @@
 #include "../Drive/drive.cpp"
 #include "../Lift/lift.cpp"
 #include "../Autonomous/auto.cpp"
+#include "../Screen/screen.c"
 //#include "globals.h"
 //#include "pros/api_legacy.h"
 
