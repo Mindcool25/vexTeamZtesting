@@ -2,4 +2,8 @@
 #include "../include/main.h"
 #include "../include/pros/apix.h"
 
-void screen_buttons();
+void selections();
+static void DoNothing();
+static void RightTriTask();
+static void RightCenter();
+static void LeftCenter();
