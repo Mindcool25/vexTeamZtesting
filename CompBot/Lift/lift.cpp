@@ -14,12 +14,12 @@ void moveLiftAuto(double distance){
   lift.tarePosition();
   lift.moveAbsolute(distance, 200);
   if(distance > 0){
-    while(lift.getPosition() < distance){
+    while(lift_left.getPosition() <= distance){
       pros::delay(20);
     }
   }
   else {
-    while(lift.getPosition() > distance){
+    while(lift_left.getPosition() >= distance){
       pros::delay(20);
     }
   }

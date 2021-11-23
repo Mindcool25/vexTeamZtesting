@@ -30,20 +30,21 @@ void tankDrive(){
 }
 
 void forward(double distance){
-  distance *= 60;
+  double dis = distance;
+  dis *= 60;
   rightSide.tarePosition();
   leftSide.tarePosition();
 
-  rightSide.moveAbsolute(distance, 200);
-  leftSide.moveAbsolute(distance, 200);
+  rightSide.moveAbsolute(dis, 200);
+  leftSide.moveAbsolute(dis, 200);
 
-  if (distance > 0){
-    while (rightSide.getPosition() < distance && leftSide.getPosition() < distance){
+  if (dis > 0){
+    while (rightSide.getPosition() < dis && leftSide.getPosition() < dis){
       pros::delay(20);
     }
   }
   else {
-    while (rightSide.getPosition() > distance && leftSide.getPosition() > distance){
+    while (rightSide.getPosition() > dis && leftSide.getPosition() > dis){
       pros::delay(20);
     }
   }
@@ -52,7 +53,7 @@ void forward(double distance){
 }
 
 void turn(double degrees){
-  degrees *= 8.205;
+  degrees *= -8.205;
   rightSide.tarePosition();
   leftSide.tarePosition();
 

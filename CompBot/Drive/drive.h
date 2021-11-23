@@ -13,10 +13,10 @@ using namespace okapi;
 #define RIGHT_MOTOR_FRONT 9
 
 //define motors
-Motor rb_motor(RIGHT_MOTOR_BACK, true, AbstractMotor::gearset::green, AbstractMotor::encoderUnits::degrees);
-Motor rf_motor(RIGHT_MOTOR_FRONT, false, AbstractMotor::gearset::green, AbstractMotor::encoderUnits::degrees);
-Motor lb_motor(LEFT_MOTOR_BACK, false, AbstractMotor::gearset::green, AbstractMotor::encoderUnits::degrees);
-Motor lf_motor(LEFT_MOTOR_FRONT, true, AbstractMotor::gearset::green, AbstractMotor::encoderUnits::degrees);
+Motor rb_motor(RIGHT_MOTOR_BACK, true, AbstractMotor::gearset::blue, AbstractMotor::encoderUnits::degrees);
+Motor rf_motor(RIGHT_MOTOR_FRONT, false, AbstractMotor::gearset::blue, AbstractMotor::encoderUnits::degrees);
+Motor lb_motor(LEFT_MOTOR_BACK, false, AbstractMotor::gearset::blue, AbstractMotor::encoderUnits::degrees);
+Motor lf_motor(LEFT_MOTOR_FRONT, true, AbstractMotor::gearset::blue, AbstractMotor::encoderUnits::degrees);
 /*possibly change to motor groups*/
 //Motor groups
 MotorGroup rightSide({rb_motor, rf_motor});

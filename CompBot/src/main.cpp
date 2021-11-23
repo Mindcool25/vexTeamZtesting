@@ -1,6 +1,10 @@
 #include "../include/main.h"
 #include "../include/globals.h"
 
+
+/*[({
+
+})]*/
 /**
  * Runs initialization code. This occurs as soon as the program is started.
  *
@@ -9,7 +13,7 @@
  */
 void initialize() {
 	//pros::lcd::initialize();
-	screen_buttons();
+	//screen_buttons();
 }
 
 /**
@@ -42,7 +46,7 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
-	autonSelect();
+
 }
 
 /**
@@ -59,24 +63,43 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-	setupDriveMotors(1);
+	setupDriveMotors(0);
 	while(true){
 		tankDrive();
 		moveLift();
-		if(masterController.getDigital(okapi::ControllerDigital::B)){
-			for(int i = 0; i  < 4; i++){
-				forward(12);
-				pros::delay(30);
-				turn(90);
-				pros::delay(30);
-			}
+		moveMOGO();
+		if(masterController.getDigital(okapi::ControllerDigital::up)){
+			moveMOGOAutoUp();
+		}
+		if(masterController.getDigital(okapi::ControllerDigital::down)){
+			moveMOGOAutoDown();
 		}
 		if(masterController.getDigital(okapi::ControllerDigital::Y)){
-			forward(48);
-			moveLiftAuto(360);
+			auto glambda = [](double act) {forward(50);};
+			//glambda(50);
+			int* fifty;
+			*fifty = 50;
+			pros::Task forward50(&glambda, fifty, "Forward50");
+			//pros::Task autoLifter(moveLiftAuto, 2000.0, "LiftUp");
+			// forward(50);
+			// moveLiftAuto(2000);
+			// pros::delay(10);
+			// forward(-24);
+			// turn(-90);
+			// forward(-10);
+			// MOGOShake();
+			// moveMOGOAutoDown();
+			// forward(-10);
+			// moveMOGOAutoUp();
+			// forward(21);
+			// turn(90);
+			// forward(-24);
 		}
 		if(masterController.getDigital(okapi::ControllerDigital::X)){
-			autonomous();
+			//pros::Task forward50(my_task_fn);
+			pros::Task Shake(MOGOShake);
+			pros::delay(500);
+
 		}
 
 
