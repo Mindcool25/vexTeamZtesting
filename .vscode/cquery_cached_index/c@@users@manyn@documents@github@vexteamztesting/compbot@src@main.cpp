@@ -63,24 +63,40 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
+	//Setup motors
 	setupDriveMotors(0);
+
 	while(true){
+		//drive
 		tankDrive();
+		//Move lift
 		moveLift();
+		//move back
 		moveMOGO();
+
+		//Button up - Mogo
 		if(masterController.getDigital(okapi::ControllerDigital::up)){
 			moveMOGOAutoUp();
 		}
+		//Button Down - Mogo
 		if(masterController.getDigital(okapi::ControllerDigital::down)){
 			moveMOGOAutoDown();
 		}
+
+		//Y Button functions
 		if(masterController.getDigital(okapi::ControllerDigital::Y)){
-			auto glambda = [](double act) {forward(50);};
-			//glambda(50);
-			int* fifty;
-			*fifty = 50;
-			pros::Task forward50(&glambda, fifty, "Forward50");
-			//pros::Task autoLifter(moveLiftAuto, 2000.0, "LiftUp");
+			// auto glambda = [](double act) {forward(50);};
+			// glambda(50);
+			// int* fifty;
+			// *fifty = 50;
+			// pros::Task forward50(&glambda, fifty, "Forward50");
+			// //pros::Task autoLifter(moveLiftAuto, 2000.0, "LiftUp");
+
+			/*Right side auton tasks
+				1. run to center
+				2. achieve win point
+			*/
+
 			// forward(50);
 			// moveLiftAuto(2000);
 			// pros::delay(10);
@@ -95,6 +111,8 @@ void opcontrol() {
 			// turn(90);
 			// forward(-24);
 		}
+
+		//X Button - Threading
 		if(masterController.getDigital(okapi::ControllerDigital::X)){
 			//pros::Task forward50(my_task_fn);
 			pros::Task Shake(MOGOShake);
@@ -102,7 +120,7 @@ void opcontrol() {
 
 		}
 
-
+		/*DO NOT DELETE*/
 		pros::delay(10);
 	}
 

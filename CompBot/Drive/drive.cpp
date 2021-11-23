@@ -1,5 +1,11 @@
+/* drive.cpp
+This file defines motors and sets them up. It also creates the auto forward and turn distance
+functions and tank drive layout.
+*/
+
 #include "drive.h"
 
+//sets up motor brake mode
 void setupDriveMotors(int mode){
   switch(mode){
     case 0:
@@ -17,6 +23,7 @@ void setupDriveMotors(int mode){
   }
 }
 
+//Tank drive contolled by left and right sticksa
 void tankDrive(){
   leftInput = masterController.getAnalog(ControllerAnalog::leftY)*12000;
   rightInput = masterController.getAnalog(ControllerAnalog::rightY)*12000;
@@ -26,9 +33,10 @@ void tankDrive(){
 
   lb_motor.moveVoltage(leftInput);
   lf_motor.moveVoltage(leftInput);
-  //yes
+
 }
 
+//auto forward function - parameter is in inches
 void forward(double distance){
   double dis = distance;
   dis *= 60;
@@ -52,6 +60,7 @@ void forward(double distance){
   	pros::delay(50);
 }
 
+//auto turn function - parameter is in degrees
 void turn(double degrees){
   degrees *= -8.205;
   rightSide.tarePosition();
