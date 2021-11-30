@@ -85,13 +85,13 @@ void opcontrol() {
 
 		//Y Button functions
 		if(masterController.getDigital(okapi::ControllerDigital::Y)){
-			// auto glambda = [](double act) {forward(50);};
-			// glambda(50);
-			// int* fifty;
-			// *fifty = 50;
-			// pros::Task forward50(&glambda, fifty, "Forward50");
-			// //pros::Task autoLifter(moveLiftAuto, 2000.0, "LiftUp");
-
+			auto glambda = [](double act) {forward(50);};
+			int data = 50;
+			pros::Task Forwward([=](){pros::delay(1000);
+    forward(data);});
+			data = 20;
+			Forwward;
+			data = 20;
 			/*Right side auton tasks
 				1. run to center
 				2. achieve win point
