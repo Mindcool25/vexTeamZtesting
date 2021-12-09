@@ -43,8 +43,8 @@ void forward(double distance){
   rightSide.tarePosition();
   leftSide.tarePosition();
 
-  rightSide.moveAbsolute(dis, 200);
-  leftSide.moveAbsolute(dis, 200);
+  rightSide.moveAbsolute(dis, 600);
+  leftSide.moveAbsolute(dis, 600);
 
   if (dis > 0){
     while (rightSide.getPosition() < dis && leftSide.getPosition() < dis){
@@ -66,8 +66,8 @@ void turn(double degrees){
   rightSide.tarePosition();
   leftSide.tarePosition();
 
-  rightSide.moveAbsolute(degrees, 200);
-  leftSide.moveAbsolute(-degrees, -200);
+  rightSide.moveAbsolute(degrees, 600);
+  leftSide.moveAbsolute(-degrees, -600);
 
   if (degrees > 0){
     while (rightSide.getPosition() < degrees && leftSide.getPosition() < degrees){

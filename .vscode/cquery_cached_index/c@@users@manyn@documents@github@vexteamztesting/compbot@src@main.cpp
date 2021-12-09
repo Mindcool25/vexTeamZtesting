@@ -1,7 +1,6 @@
 #include "../include/main.h"
 #include "../include/globals.h"
 
-
 /*[({
 
 })]*/
@@ -14,6 +13,7 @@
 void initialize() {
 	//pros::lcd::initialize();
 	//screen_buttons();
+	resetAll();
 }
 
 /**
@@ -32,7 +32,18 @@ void disabled() {}
  * This task will exit when the robot is enabled and autonomous or opcontrol
  * starts.
  */
-void competition_initialize() {}
+void competition_initialize() {
+	while(!pros::competition::is_autonomous()){
+		if(masterController.getDigital(okapi::ControllerDigital::right)){
+			selection = "right";
+		}
+		else if (masterController.getDigital(okapi::ControllerDigital::left)) {
+			selection = "left";
+		}
+	}
+
+
+}
 
 /**
  * Runs the user autonomous code. This function will be started in its own task
@@ -46,7 +57,7 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
-
+	autonRun();
 }
 
 /**
@@ -65,38 +76,37 @@ void autonomous() {
 void opcontrol() {
 	//Setup motors
 	setupDriveMotors(0);
+	setupLift();
+	double data = 0;
+	pros::Task Forward([data, &Forward](){
+		while(true){
+			pros::delay(20);
+			forward(data);
+			Forward.suspend();
+		}
+	});
 
 	while(true){
 		//drive
 		tankDrive();
 		//Move lift
+		moveTilter();
 		moveLift();
 		//move back
 		moveMOGO();
 
-		//Button up - Mogo
-		if(masterController.getDigital(okapi::ControllerDigital::up)){
-			moveMOGOAutoUp();
-		}
-		//Button Down - Mogo
-		if(masterController.getDigital(okapi::ControllerDigital::down)){
-			moveMOGOAutoDown();
-		}
-
 		//Y Button functions
 		if(masterController.getDigital(okapi::ControllerDigital::Y)){
-			auto glambda = [](double act) {forward(50);};
-			int data = 50;
-			pros::Task Forwward([=](){pros::delay(1000);
-    forward(data);});
-			data = 20;
-			Forwward;
-			data = 20;
+			/*data = 50.0;
+			Forward.resume();
+			*/
+
 			/*Right side auton tasks
 				1. run to center
 				2. achieve win point
 			*/
-
+			data = 50;
+			Forward.resume();
 			// forward(50);
 			// moveLiftAuto(2000);
 			// pros::delay(10);
@@ -110,14 +120,6 @@ void opcontrol() {
 			// forward(21);
 			// turn(90);
 			// forward(-24);
-		}
-
-		//X Button - Threading
-		if(masterController.getDigital(okapi::ControllerDigital::X)){
-			//pros::Task forward50(my_task_fn);
-			pros::Task Shake(MOGOShake);
-			pros::delay(500);
-
 		}
 
 		/*DO NOT DELETE*/

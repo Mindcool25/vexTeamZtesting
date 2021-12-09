@@ -1,4 +1,8 @@
 #include "../include/main.h"
 
 //functions
-void autonSelect();
+void autonRun();
+void runRight();
+void runLeft();
+
+void resetAll();

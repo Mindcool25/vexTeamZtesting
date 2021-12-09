@@ -1,13 +1,17 @@
 #include "MOGO.h"
 
 void moveMOGO(){
-  while (masterController.getDigital(okapi::ControllerDigital::right)){
+  if (masterController.getDigital(okapi::ControllerDigital::down)){
     mogoLift.moveVoltage(12000);
+
   }
-  while (masterController.getDigital(okapi::ControllerDigital::left)){
+  else if (masterController.getDigital(okapi::ControllerDigital::up
+  )){
     mogoLift.moveVoltage(-12000);
   }
-  mogoLift.moveVoltage(0);
+  else {
+    mogoLift.moveVoltage(0);
+  }
 }
 
 void moveMOGOAutoUp(){
