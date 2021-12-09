@@ -54,12 +54,6 @@ void runRight(){
 }
 
 void resetAll(){
-  lift.moveVoltage(-12000);
-	tilter.moveVoltage(12000);
-	pros::delay(200);
-	tilter.moveVoltage(0);
-	pros::delay(200);
-	lift.moveVoltage(0);
 	lift.tarePosition();
 	tilter.tarePosition();
 }

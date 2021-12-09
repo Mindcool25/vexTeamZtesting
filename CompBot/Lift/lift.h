@@ -8,7 +8,7 @@ okapi::Motor lift_left(6, true, okapi::AbstractMotor::gearset::red, okapi::Abstr
 okapi::MotorGroup lift({lift_right, lift_left});
 
 
-okapi::Motor tilter(3, false, okapi::AbstractMotor::gearset::green, okapi::AbstractMotor::encoderUnits::degrees);
+okapi::Motor tilter(18, false, okapi::AbstractMotor::gearset::green, okapi::AbstractMotor::encoderUnits::degrees);
 
 //functions
 void moveLift();
