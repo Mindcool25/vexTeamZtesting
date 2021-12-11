@@ -7,3 +7,4 @@ doskey terminal = pros terminal
 doskey commit = git commit
 doskey add = git add .
 doskey push = git push
+doskey run = build.bat
