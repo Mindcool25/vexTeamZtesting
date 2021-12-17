@@ -33,15 +33,6 @@ void disabled() {}
  * starts.
  */
 void competition_initialize() {
-	// while(pros::competition::get_status())
-	std::cout << "Hello I Am Here" < std::endl;
-	/*if(masterController.getDigital(okapi::ControllerDigital::right)){
-		selection = "right";
-	}
-	else if (masterController.getDigital(okapi::ControllerDigital::left)) {
-		selection = "left";
-	}*/
-
 
 }
 
