@@ -28,12 +28,23 @@ void setupDriveMotors(int mode){
 void tankDrive(){
   if(masterController.getDigital(ControllerDigital::down) && direction == 1){
     direction = -1;
+    pros::delay(100);
   }
   else if(masterController.getDigital(ControllerDigital::down) && direction ==-1){
     direction = 1;
+    pros::delay(100);
   }
-  leftInput = masterController.getAnalog(ControllerAnalog::leftY)*12000* direction;
-  rightInput = masterController.getAnalog(ControllerAnalog::rightY)*12000*direction;
+
+  if(direction == 1){
+    leftInput = masterController.getAnalog(ControllerAnalog::leftY)*12000*1;
+    rightInput = masterController.getAnalog(ControllerAnalog::rightY)*12000*1;
+  }
+  else if(direction == -1){
+      rightInput = masterController.getAnalog(ControllerAnalog::leftY)*12000*-1;
+      leftInput = masterController.getAnalog(ControllerAnalog::rightY)*12000*-1;
+  }
+
+  std::cout << direction << std::endl;
 
   rb_motor.moveVoltage(rightInput);
   rf_motor.moveVoltage(rightInput);

@@ -80,27 +80,10 @@ void opcontrol() {
 
 		//Y Button functions
 		if(masterController.getDigital(okapi::ControllerDigital::Y)){
-			/*data = 50.0;
-			Forward.resume();
-			*/
-
-			/*Right side auton tasks
-				1. run to center
-				2. achieve win point
-			*/
-			// forward(50);
-			// moveLiftAuto(2000);
-			// pros::delay(10);
-			// forward(-24);
-			// turn(-90);
-			// forward(-10);
-			// MOGOShake();
-			// moveMOGOAutoDown();
-			// forward(-10);
-			// moveMOGOAutoUp();
-			// forward(21);
-			// turn(90);
-			// forward(-24);
+			runRight();
+		}
+		else if(masterController.getDigital(okapi::ControllerDigital::A)){
+			runLeft();
 		}
 
 		/*DO NOT DELETE*/
