@@ -68,14 +68,6 @@ void opcontrol() {
 	//Setup motors
 	setupDriveMotors(0);
 	setupLift();
-	double data = 0;
-	pros::Task Forward([data, &Forward](){
-		while(true){
-			pros::delay(20);
-			forward(data);
-			Forward.suspend();
-		}
-	});
 
 	while(true){
 		//drive
@@ -96,8 +88,6 @@ void opcontrol() {
 				1. run to center
 				2. achieve win point
 			*/
-			data = 50;
-			Forward.resume();
 			// forward(50);
 			// moveLiftAuto(2000);
 			// pros::delay(10);
