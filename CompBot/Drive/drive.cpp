@@ -7,6 +7,7 @@ functions and tank drive layout.
 
 //sets up motor brake mode
 void setupDriveMotors(int mode){
+  direction = 1;
   switch(mode){
     case 0:
       rightSide.setBrakeMode(AbstractMotor::brakeMode::coast);
@@ -25,8 +26,14 @@ void setupDriveMotors(int mode){
 
 //Tank drive contolled by left and right sticksa
 void tankDrive(){
-  leftInput = masterController.getAnalog(ControllerAnalog::leftY)*12000;
-  rightInput = masterController.getAnalog(ControllerAnalog::rightY)*12000;
+  if(masterController.getDigital(ControllerDigital::down) && direction == 1){
+    direction = -1;
+  }
+  else if(masterController.getDigital(ControllerDigital::down) && direction ==-1){
+    direction = 1;
+  }
+  leftInput = masterController.getAnalog(ControllerAnalog::leftY)*12000* direction;
+  rightInput = masterController.getAnalog(ControllerAnalog::rightY)*12000*direction;
 
   rb_motor.moveVoltage(rightInput);
   rf_motor.moveVoltage(rightInput);

@@ -34,6 +34,7 @@ MotorGroup leftSide({lb_motor, lf_motor});
 //define inputs
 float leftInput;
 float rightInput;
+int direction;
 
 //define functions
 void setupDriveMotors(int mode);
