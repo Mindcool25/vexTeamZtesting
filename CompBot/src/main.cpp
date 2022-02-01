@@ -1,15 +1,5 @@
 #include "../include/main.h"
 #include "../include/globals.h"
-
-void on_center_button(){
-	selection = "None";
-}
-void on_right_button(){
-	selection = "Right";
-}
-void on_left_button(){
-	selection = "Left";
-}
 /**
  * Runs initialization code. This occurs as soon as the program is started.
  *
@@ -17,10 +7,7 @@ void on_left_button(){
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-	pros::lcd::initialize();
-	pros::lcd::register_btn0_cb(on_left_button);
-	pros::lcd::register_btn1_cb(on_center_button);
-	pros::lcd::register_btn2_cb(on_right_button);
+	setup_screen();
 	//screen_buttons();
 	resetAll();
 	disabled();
@@ -32,19 +19,12 @@ void initialize() {
  * the robot is enabled, this task will exit.
  */
 void disabled() {
-	selection = "Right";
-	while (pros::competition::is_disabled()){
-		if(masterController.getDigital(okapi::ControllerDigital::Y)){
-			selection = "Left";
-			std::cout << "Left" << std::endl;
-		}
-		else if(masterController.getDigital(okapi::ControllerDigital::A)){
-			selection = "Right";
-			std::cout << "Right" << std::endl;
-		}
-		std::cout << selection << std::endl;
+	selection = "None";
+	while(pros::competition::is_disabled()){
+		const char *c = selection.c_str();
+		pros::lcd::print(0, c, pros::lcd::read_buttons());
+		pros::delay(500);
 	}
-
 }
 
 /**

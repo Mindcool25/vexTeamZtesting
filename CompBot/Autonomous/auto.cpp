@@ -30,32 +30,26 @@ void autonRun(){
   }
 }
 
+/*ON LEFT
+  - Run to center
+  - Grab goal with MOGO
+  - Run back to start
+*/
 void runLeft(){
-  forward(-12);
+  pros::lcd::print(0, "Running Left");
 
-  //Grab MG
-  //moveMOGOAutoDown();
-  forward(-6);
-  
 }
 
+/*ON RIGHT
+  - Run to Win Point goal
+  - Place ring in Win Point goal
+  - Run to center
+  - Grab center goal with
+  - Run back
+*/
 void runRight(){
-  //Run to Win Point Goal
-  forward(-12);
-
-  //Place ring in MG (Mobile Goal)
-  //MOGOShake();
-
-  //Grab MG
-  //moveMOGOAutoDown();
-  forward(-6);
-  //moveMOGOAutoUp();
-
-  //Run to center
-  turn(30);
-  forward(50);
-
-
+  pros::lcd::print(0, "Running Right");
+  forward(-50);
 }
 
 void resetAll(){

@@ -61,8 +61,8 @@ void forward(double distance){
   rightSide.tarePosition();
   leftSide.tarePosition();
 
-  rightSide.moveAbsolute(dis, 600);
-  leftSide.moveAbsolute(dis, 600);
+  rightSide.moveAbsolute(dis, 400);
+  leftSide.moveAbsolute(dis, 400);
 
   if (dis > 0){
     while (rightSide.getPosition() < dis && leftSide.getPosition() < dis){
