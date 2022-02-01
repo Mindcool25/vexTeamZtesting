@@ -36,11 +36,7 @@ void runLeft(){
   //Grab MG
   //moveMOGOAutoDown();
   forward(-6);
-  //moveMOGOAutoUp();
-
-  //Run to center
-  turn(30);
-  forward(50);
+  
 }
 
 void runRight(){

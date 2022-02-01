@@ -30,7 +30,7 @@ void tankDrive(){
     direction = -1;
     pros::delay(100);
   }
-  else if(masterController.getDigital(ControllerDigital::down) && direction ==-1){
+  else if(masterController.getDigital(ControllerDigital::up) && direction ==-1){
     direction = 1;
     pros::delay(100);
   }

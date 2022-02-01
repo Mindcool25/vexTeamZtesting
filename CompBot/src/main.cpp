@@ -1,9 +1,15 @@
 #include "../include/main.h"
 #include "../include/globals.h"
 
-/*[({
-
-})]*/
+void on_center_button(){
+	selection = "None";
+}
+void on_right_button(){
+	selection = "Right";
+}
+void on_left_button(){
+	selection = "Left";
+}
 /**
  * Runs initialization code. This occurs as soon as the program is started.
  *
@@ -11,9 +17,13 @@
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-	//pros::lcd::initialize();
+	pros::lcd::initialize();
+	pros::lcd::register_btn0_cb(on_left_button);
+	pros::lcd::register_btn1_cb(on_center_button);
+	pros::lcd::register_btn2_cb(on_right_button);
 	//screen_buttons();
 	resetAll();
+	disabled();
 }
 
 /**
@@ -21,7 +31,21 @@ void initialize() {
  * the VEX Competition Switch, following either autonomous or opcontrol. When
  * the robot is enabled, this task will exit.
  */
-void disabled() {}
+void disabled() {
+	selection = "Right";
+	while (pros::competition::is_disabled()){
+		if(masterController.getDigital(okapi::ControllerDigital::Y)){
+			selection = "Left";
+			std::cout << "Left" << std::endl;
+		}
+		else if(masterController.getDigital(okapi::ControllerDigital::A)){
+			selection = "Right";
+			std::cout << "Right" << std::endl;
+		}
+		std::cout << selection << std::endl;
+	}
+
+}
 
 /**
  * Runs after initialize(), and before autonomous when connected to the Field
@@ -50,7 +74,6 @@ void competition_initialize() {
 void autonomous() {
 	autonRun();
 }
-
 /**
  * Runs the operator control code. This function will be started in its own task
  * with the default priority and stack size whenever the robot is enabled via
@@ -77,14 +100,6 @@ void opcontrol() {
 		moveLift();
 		//move back
 		moveMOGO();
-
-		//Y Button functions
-		if(masterController.getDigital(okapi::ControllerDigital::Y)){
-			runRight();
-		}
-		else if(masterController.getDigital(okapi::ControllerDigital::A)){
-			runLeft();
-		}
 
 		/*DO NOT DELETE*/
 		pros::delay(10);
