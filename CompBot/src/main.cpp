@@ -78,7 +78,7 @@ void opcontrol() {
 		//Move lift
 		moveTilter();
 		moveLift();
-		//move back
+		//move mogo
 		moveMOGO();
 
 		/*DO NOT DELETE*/

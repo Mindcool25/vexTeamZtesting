@@ -44,7 +44,7 @@
 #include "../Drive/drive.cpp"
 #include "../Lift/lift.cpp"
 #include "../Autonomous/auto.cpp"
-#include "../MOGO/MOGO.cpp"
+#include "../mogo/mogo.cpp"
 #include "../Screen/screen.cpp"
 //#include "pros/api_legacy.h"
 

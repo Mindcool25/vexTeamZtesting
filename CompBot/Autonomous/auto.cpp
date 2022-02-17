@@ -1,4 +1,5 @@
 #include "auto.h"
+#include "../include/main.h"
 
 /*Right side auton tasks
   1. Run to Middle
@@ -49,7 +50,9 @@ void runLeft(){
 */
 void runRight(){
   pros::lcd::print(0, "Running Right");
-  forward(-50);
+  forward(-15);
+  turn(60);
+  moveMOGOAutoDown();
 }
 
 void resetAll(){
