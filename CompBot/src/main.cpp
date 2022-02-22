@@ -80,6 +80,7 @@ void opcontrol() {
 		moveLift();
 		//move mogo
 		moveMOGO();
+		
 
 		/*DO NOT DELETE*/
 		pros::delay(10);

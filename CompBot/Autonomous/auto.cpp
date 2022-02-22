@@ -1,6 +1,34 @@
 #include "auto.h"
 #include "../include/main.h"
 
+Motor mogoMotor(RIGHT_MOTOR_BACK, false, AbstractMotor::gearset::green, AbstractMotor::encoderUnits::degrees);
+
+
+void MOGOup(){
+  mogoMotor.moveVoltage(-11000);
+  pros::delay(300);
+  mogoMotor.moveVoltage(0);
+}
+
+void MOGOdown(){
+  mogoMotor.moveVoltage(11000);
+  pros::delay(200);
+  mogoMotor.moveVoltage(0);
+}
+
+void Shake(){
+  mogoMotor.moveVoltage(11000);
+  pros::delay(200);
+  mogoMotor.moveVoltage(-11000);
+  pros::delay(100);
+  mogoMotor.moveVoltage(12000);
+  pros::delay(100);
+  mogoMotor.moveVoltage(-11000);
+  pros::delay(100);
+  mogoMotor.moveVoltage(12000);
+}
+
+
 /*Right side auton tasks
   1. Run to Middle
   AND
@@ -52,7 +80,9 @@ void runRight(){
   pros::lcd::print(0, "Running Right");
   forward(-15);
   turn(60);
-  moveMOGOAutoDown();
+  MOGOdown();
+  forward(-15);
+
 }
 
 void resetAll(){
