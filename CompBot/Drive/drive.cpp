@@ -84,8 +84,8 @@ void turn(double degrees){
   rightSide.tarePosition();
   leftSide.tarePosition();
 
-  rightSide.moveAbsolute(degrees, 600);
-  leftSide.moveAbsolute(-degrees, -600);
+  rightSide.moveAbsolute(degrees, 400);
+  leftSide.moveAbsolute(-degrees, -400);
 
   if (degrees > 0){
     while (rightSide.getPosition() < degrees && leftSide.getPosition() < degrees){

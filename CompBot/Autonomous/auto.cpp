@@ -1,31 +1,31 @@
 #include "auto.h"
 #include "../include/main.h"
 
-Motor mogoMotor(RIGHT_MOTOR_BACK, false, AbstractMotor::gearset::green, AbstractMotor::encoderUnits::degrees);
+Motor mogoMotor(20, true, AbstractMotor::gearset::green, AbstractMotor::encoderUnits::degrees);
 
 
-void MOGOup(){
+void MOGOdown(){
   mogoMotor.moveVoltage(-11000);
-  pros::delay(300);
+  pros::delay(400);
   mogoMotor.moveVoltage(0);
 }
 
-void MOGOdown(){
+void MOGOup(){
   mogoMotor.moveVoltage(11000);
-  pros::delay(200);
+  pros::delay(400);
   mogoMotor.moveVoltage(0);
 }
 
 void Shake(){
-  mogoMotor.moveVoltage(11000);
+  mogoMotor.moveVoltage(-11000);
   pros::delay(200);
-  mogoMotor.moveVoltage(-11000);
+  mogoMotor.moveVoltage(11000);
   pros::delay(100);
-  mogoMotor.moveVoltage(12000);
+  mogoMotor.moveVoltage(-12000);
   pros::delay(100);
-  mogoMotor.moveVoltage(-11000);
+  mogoMotor.moveVoltage(11000);
   pros::delay(100);
-  mogoMotor.moveVoltage(12000);
+  mogoMotor.moveVoltage(-12000);
 }
 
 
@@ -66,6 +66,7 @@ void autonRun(){
 */
 void runLeft(){
   pros::lcd::print(0, "Running Left");
+  Shake();
 
 }
 
@@ -78,11 +79,13 @@ void runLeft(){
 */
 void runRight(){
   pros::lcd::print(0, "Running Right");
-  forward(-15);
-  turn(60);
+  forward(-10);
+  turn(65);
   MOGOdown();
   forward(-15);
-
+  MOGOup();
+  forward(5);
+  turn(100);
 }
 
 void resetAll(){
