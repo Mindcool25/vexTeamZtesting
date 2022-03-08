@@ -27,6 +27,12 @@ void Shake(){
   pros::delay(100);
   mogoMotor.moveVoltage(-12000);
 }
+void hook(){
+  //moveTilterAuto(90);
+  turn(-25);
+  //moveTilterAuto(-90);
+  forward(-15);
+}
 
 
 /*Right side auton tasks
@@ -64,10 +70,19 @@ void autonRun(){
   - Grab goal with MOGO
   - Run back to start
 */
+
+//Not Tested
 void runLeft(){
   pros::lcd::print(0, "Running Left");
+  forward(25);
+  turn(25);
+  forward(25);
+  hook();
+  forward(-15);
+  turn(-35);
+  forward(-10);
   Shake();
-
+  
 }
 
 /*ON RIGHT
@@ -77,6 +92,7 @@ void runLeft(){
   - Grab center goal with
   - Run back
 */
+//Tested - W/out field elements
 void runRight(){
   pros::lcd::print(0, "Running Right");
   forward(-10);
@@ -84,8 +100,16 @@ void runRight(){
   MOGOdown();
   forward(-15);
   MOGOup();
-  forward(5);
-  turn(100);
+  forward(17);
+  turn(95);
+  forward(35);
+  //moveTilterAuto(90);
+  turn(-25);
+  //moveTilterAuto(-90);
+  forward(-15);
+  turn(35);
+  forward(-10);
+
 }
 
 void resetAll(){

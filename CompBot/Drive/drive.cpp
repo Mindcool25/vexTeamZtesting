@@ -75,7 +75,7 @@ void forward(double distance){
     }
   }
 
-  	pros::delay(50);
+  	pros::delay(250);
 }
 
 //auto turn function - parameter is in degrees
@@ -98,5 +98,5 @@ void turn(double degrees){
     }
   }
 
-  pros::delay(50);
+  pros::delay(250);
 }
